@@ -31,6 +31,27 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showcaseTone, setShowcaseTone] = useState("Professional");
   
+  const [isMounted, setIsMounted] = useState(false);
+  const bgVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && bgVideoRef.current) {
+      bgVideoRef.current.muted = true;
+      bgVideoRef.current.defaultMuted = true;
+      bgVideoRef.current.loop = false;
+      const playPromise = bgVideoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.log("Background video autoplay prevented:", error);
+        });
+      }
+    }
+  }, [isMounted]);
+  
   // Showcase Typing Animation
   const [typedText, setTypedText] = useState("");
   const typingTimer = useRef<NodeJS.Timeout | null>(null);
@@ -238,121 +259,54 @@ export default function LandingPage() {
       </header>
 
       {/* 1. HERO SECTION */}
-      <section className="relative pt-16 pb-20 md:pt-28 md:pb-32 max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full glass-panel text-xs text-blue-400 font-medium mb-6"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Introducing CoverLetter AI 2.0</span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6"
-          >
-            Land Interviews. <br />
-            <span className="text-gradient">Not Rejections.</span>
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10"
-          >
-            Generate tailored, professional cover letters that sound human, not AI-generated. Instantly match your credentials with any target description.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-5 mb-20"
-          >
-            <Link
-              href={session ? "/dashboard" : "/register"}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-base font-medium bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 transition-all flex items-center justify-center space-x-2 glow-btn group"
-            >
-              <span>{session ? "Go to Dashboard" : "Start Generating Free"}</span>
-              <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <a
-              href="#showcase"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl text-base font-medium bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.08] text-white transition-all flex items-center justify-center"
-            >
-              Watch Demo
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Floating Documents Hero Animation */}
+      <section className="relative pt-36 pb-16 md:pt-48 md:pb-24 w-full overflow-hidden border-b border-white/[0.04] isolate flex items-end justify-center min-h-[50vh] md:min-h-[75vh] lg:min-h-[85vh]">
+        {/* Ambient Hero Background Video */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative max-w-5xl mx-auto rounded-2xl glass-panel p-4 md:p-6 shadow-2xl border-white/[0.08] overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isMounted ? 1 : 0 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 -z-10 w-full h-full overflow-hidden bg-[#090d16] pointer-events-none"
         >
-          {/* Radial Top Glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
-          
-          <div className="aspect-[16/9] w-full rounded-xl bg-[#0b0f19] border border-white/[0.04] p-6 relative flex flex-col justify-between overflow-hidden">
-            {/* Mock Dashboard Topbar */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              </div>
-              <div className="h-6 w-48 rounded bg-white/[0.05] border border-white/[0.05]" />
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold">JD</div>
-            </div>
-
-            {/* Inner Animation Layout */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 relative">
-              {/* Form Input Mock */}
-              <div className="md:col-span-5 flex flex-col space-y-4">
-                <div className="h-4 w-1/3 bg-white/[0.08] rounded" />
-                <div className="h-10 w-full bg-white/[0.03] border border-white/[0.08] rounded-lg" />
-                <div className="h-4 w-1/2 bg-white/[0.08] rounded" />
-                <div className="h-20 w-full bg-white/[0.03] border border-white/[0.08] rounded-lg" />
-                <div className="h-10 w-full bg-blue-600 rounded-lg flex items-center justify-center text-xs font-semibold space-x-1.5 opacity-90">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Tailoring Cover Letter...</span>
-                </div>
-              </div>
-
-              {/* Cover Letter Live Gen Mock */}
-              <div className="md:col-span-7 rounded-lg bg-slate-950/80 border border-white/[0.06] p-5 relative overflow-hidden flex flex-col">
-                <div className="absolute top-2 right-2 px-2 py-0.5 rounded bg-blue-500/10 text-[10px] font-semibold text-blue-400 border border-blue-500/20">
-                  Generating Tone: Professional
-                </div>
-                {/* Simulated Document Lines */}
-                <div className="space-y-3.5 pt-4">
-                  <motion.div animate={{ width: ["0%", "85%"] }} transition={{ duration: 1.5 }} className="h-3.5 bg-white/[0.12] rounded" />
-                  <motion.div animate={{ width: ["0%", "92%"] }} transition={{ duration: 1.8, delay: 0.3 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <motion.div animate={{ width: ["0%", "78%"] }} transition={{ duration: 1.4, delay: 0.6 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <div className="h-4" />
-                  <motion.div animate={{ width: ["0%", "98%"] }} transition={{ duration: 2.2, delay: 0.9 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <motion.div animate={{ width: ["0%", "95%"] }} transition={{ duration: 2, delay: 1.2 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <motion.div animate={{ width: ["0%", "88%"] }} transition={{ duration: 1.8, delay: 1.5 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <motion.div animate={{ width: ["0%", "50%"] }} transition={{ duration: 1.2, delay: 1.8 }} className="h-3.5 bg-white/[0.08] rounded" />
-                  <div className="h-4" />
-                  <motion.div animate={{ width: ["0%", "45%"] }} transition={{ duration: 1, delay: 2.1 }} className="h-3.5 bg-white/[0.12] rounded" />
-                </div>
-              </div>
-            </div>
-          </div>
+          {isMounted && (
+            <video
+              ref={bgVideoRef}
+              src="/video/Cover_letter_AI.mp4"
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              className="w-full h-full object-cover opacity-100 scale-100"
+            />
+          )}
+          {/* Edge fade gradient to blend video into page background at the bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#090d16] via-[#090d16]/30 to-transparent" />
         </motion.div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
+          <div className="text-center max-w-3xl mx-auto">
+            {/* Premium CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6"
+            >
+              <Link
+                href={session ? "/dashboard" : "/register"}
+                className="w-full sm:w-auto px-9 py-4 rounded-xl text-base font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/20 hover:shadow-blue-500/35 border border-blue-500/30 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] flex items-center justify-center space-x-2.5 group"
+              >
+                <span>{session ? "Go to Dashboard" : "Start Generating Free"}</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+              </Link>
+              <a
+                href="#showcase"
+                className="w-full sm:w-auto px-9 py-4 rounded-xl text-base font-bold text-white bg-white/[0.04] border border-white/10 hover:border-[#d4af37]/75 hover:bg-white/[0.08] backdrop-blur-lg shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.35)] transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] flex items-center justify-center"
+              >
+                Watch Demo
+              </a>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* 2. PROBLEM SECTION */}

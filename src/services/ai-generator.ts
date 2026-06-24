@@ -3,6 +3,7 @@ import { MockProvider } from "../providers/mock";
 import { GeminiProvider } from "../providers/gemini";
 import { OpenAIProvider } from "../providers/openai";
 import { AnthropicProvider } from "../providers/anthropic";
+import { GroqProvider } from "../providers/groq";
 
 class AIGeneratorService {
   private getProvider(): AIProvider {
@@ -21,6 +22,8 @@ class AIGeneratorService {
         return new OpenAIProvider(key);
       case "anthropic":
         return new AnthropicProvider(key);
+      case "groq":
+        return new GroqProvider(key);
       default:
         return new MockProvider();
     }
