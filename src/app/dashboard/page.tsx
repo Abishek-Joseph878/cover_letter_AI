@@ -356,7 +356,7 @@ export default function DashboardPage() {
   if (!session) return null;
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-white flex overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex overflow-hidden">
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-64 border-r border-white/[0.06] bg-slate-950/40 flex flex-col justify-between shrink-0">
         <div>

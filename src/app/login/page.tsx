@@ -24,7 +24,7 @@ import { Suspense } from "react";
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#090d16] flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center space-y-4">
           <Loader2 className="w-10 h-10 animate-spin text-blue-500 mx-auto" />
           <p className="text-sm text-slate-450">Loading sign in...</p>
@@ -88,11 +88,11 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-[#090d16] text-white overflow-hidden relative">
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-background text-foreground overflow-hidden relative">
       {/* Back button */}
       <Link
         href="/"
-        className="absolute top-6 left-6 z-50 flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition-colors py-1.5 px-3 rounded-lg bg-white/[0.03] border border-white/[0.06]"
+        className="absolute top-6 left-6 z-50 flex items-center space-x-1.5 text-xs text-text-muted hover:text-foreground transition-colors py-1.5 px-3 rounded-lg bg-secondary/80 border border-border-color backdrop-blur-sm"
       >
         <ChevronLeft className="w-4 h-4" />
         <span>Back to home</span>
@@ -104,14 +104,14 @@ function LoginForm() {
           {/* Logo */}
           <div className="flex items-center space-x-2.5 mb-8">
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Sparkles className="w-4.5 h-4.5 text-white" />
+              <Sparkles className="w-4.5 h-4.5 text-always-white" />
             </div>
-            <span className="font-semibold text-base tracking-tight text-white">CoverLetterAI</span>
+            <span className="font-semibold text-base tracking-tight text-foreground">CoverLetterAI</span>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">Welcome back</h1>
-            <p className="text-xs text-slate-400 mt-2">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
+            <p className="text-xs text-text-muted mt-2">
               Sign in to your account to continue tailoring documents.
             </p>
           </div>
@@ -119,7 +119,7 @@ function LoginForm() {
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">
+              <label htmlFor="email" className="block text-xs font-semibold text-text-muted mb-2 uppercase tracking-wider">
                 Email Address
               </label>
               <div className="relative">
@@ -131,8 +131,8 @@ function LoginForm() {
                   type="email"
                   placeholder="name@company.com"
                   {...register("email")}
-                  className={`w-full pl-10 pr-4 py-3 bg-white/[0.02] border rounded-xl text-sm text-white placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
-                    errors.email ? "border-red-500/50" : "border-white/[0.08]"
+                  className={`w-full pl-10 pr-4 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
+                    errors.email ? "border-red-500/50" : "border-border-color"
                   }`}
                   disabled={isLoading}
                 />
@@ -146,7 +146,7 @@ function LoginForm() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label htmlFor="password" className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                <label htmlFor="password" className="block text-xs font-semibold text-text-muted uppercase tracking-wider">
                   Password
                 </label>
                 <a href="#" className="text-xs text-blue-500 hover:underline">
@@ -162,15 +162,15 @@ function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   {...register("password")}
-                  className={`w-full pl-10 pr-10 py-3 bg-white/[0.02] border rounded-xl text-sm text-white placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
-                    errors.password ? "border-red-500/50" : "border-white/[0.08]"
+                  className={`w-full pl-10 pr-10 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
+                    errors.password ? "border-red-500/50" : "border-border-color"
                   }`}
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-white"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-foreground"
                   disabled={isLoading}
                 >
                   {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
@@ -186,7 +186,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/10 hover:shadow-blue-500/20 transition-all flex items-center justify-center space-x-2 glow-btn disabled:opacity-50"
+              className="w-full py-3 px-4 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-always-white shadow-lg shadow-blue-600/10 hover:shadow-blue-500/20 transition-all flex items-center justify-center space-x-2 glow-btn disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -203,7 +203,7 @@ function LoginForm() {
           </form>
 
           {/* Register link */}
-          <p className="text-xs text-slate-400 text-center mt-8">
+          <p className="text-xs text-text-muted text-center mt-8">
             Don't have an account?{" "}
             <Link href="/register" className="text-blue-500 hover:underline font-semibold">
               Sign up free
@@ -213,7 +213,7 @@ function LoginForm() {
       </div>
 
       {/* Right panel - Animations */}
-      <div className="hidden lg:col-span-7 lg:flex flex-col justify-center items-center relative bg-gradient-to-br from-[#0b0f19] to-[#04060b] border-l border-white/[0.04]">
+      <div className="hidden lg:col-span-7 lg:flex flex-col justify-center items-center relative bg-gradient-to-br from-[#0b0f19] to-[#04060b] border-l border-white/[0.04] dark-theme-container">
         {/* Gradients */}
         <div className="absolute top-1/4 right-10 w-96 h-96 rounded-full bg-blue-600/5 blur-[120px] pointer-events-none" />
 

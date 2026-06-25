@@ -25,6 +25,8 @@ import {
   Lock,
   MousePointerClick
 } from "lucide-react";
+import HolographicTimeline from "../components/HolographicTimeline";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function LandingPage() {
   const { data: session } = useSession();
@@ -115,61 +117,65 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen selection:bg-blue-600 selection:text-white overflow-hidden bg-[#090d16]">
+    <div className="relative min-h-screen selection:bg-blue-600 selection:text-white overflow-x-clip bg-background text-foreground">
       {/* Dynamic Floating Ambient Particles */}
       <div className="absolute top-1/4 left-10 w-96 h-96 rounded-full bg-blue-600/10 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] rounded-full bg-indigo-600/5 blur-[180px] pointer-events-none" />
 
       {/* Global Header */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#090d16]/75 backdrop-blur-md transition-all duration-300">
+      <header className="sticky top-0 z-50 border-b border-border-color header-bg backdrop-blur-md transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2.5 group">
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-white" />
+              <Sparkles className="w-5 h-5 text-always-white" />
             </div>
-            <span className="font-semibold text-lg tracking-tight text-white">CoverLetter<span className="text-blue-500">AI</span></span>
+            <span className="font-semibold text-lg tracking-tight text-foreground">CoverLetter<span className="text-blue-500">AI</span></span>
           </Link>
+          {/* Desktop Right Side Nav & Actions */}
+          <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex items-center space-x-6">
+              <a href="#problem" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">Why us</a>
+              <a href="#showcase" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">Showcase</a>
+              <a href="#features" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">Features</a>
+              <a href="#pricing" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">Pricing</a>
+            </nav>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#problem" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Why us</a>
-            <a href="#showcase" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Showcase</a>
-            <a href="#features" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Features</a>
-            <a href="#pricing" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Pricing</a>
-          </nav>
+            <div className="w-[1px] h-4 bg-white/10" />
 
-          <div className="hidden md:flex items-center space-x-4">
-            {session ? (
-              <>
-                <Link href="/dashboard" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-                  Dashboard
-                </Link>
-                <button
-                  onClick={() => signOut()}
-                  className="px-4 py-2 rounded-xl text-sm font-medium bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.1] text-white transition-colors"
-                >
-                  Log out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-4 py-2 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-md shadow-blue-600/10 hover:shadow-blue-500/20 glow-btn"
-                >
-                  Start Free
-                </Link>
-              </>
-            )}
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              {session ? (
+                <>
+                  <Link href="/dashboard" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="px-4 py-2 rounded-xl text-sm font-medium bg-secondary hover:bg-secondary/80 border border-border-color text-foreground transition-colors cursor-pointer"
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="text-sm font-medium text-text-muted hover:text-foreground transition-colors">
+                    Log in
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="px-4 py-2 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-500 text-always-white transition-all shadow-md shadow-blue-600/10 hover:shadow-blue-500/20 glow-btn"
+                  >
+                    Start Free
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Btn */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg hover:bg-white/[0.05] border border-white/[0.05] text-slate-400 hover:text-white"
+            className="md:hidden p-1.5 rounded-lg hover:bg-secondary border border-border-color text-text-muted hover:text-foreground"
           >
             {mobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
           </button>
@@ -182,44 +188,48 @@ export default function LandingPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-b border-white/[0.06] bg-[#090d16]"
+              className="md:hidden border-b border-border-color mobile-menu-bg"
             >
               <div className="px-6 py-5 flex flex-col space-y-4">
                 <a
                   href="#problem"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-base text-slate-400 hover:text-white transition-colors"
+                  className="text-base text-text-muted hover:text-foreground transition-colors"
                 >
                   Why us
                 </a>
                 <a
                   href="#showcase"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-base text-slate-400 hover:text-white transition-colors"
+                  className="text-base text-text-muted hover:text-foreground transition-colors"
                 >
                   Showcase
                 </a>
                 <a
                   href="#features"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-base text-slate-400 hover:text-white transition-colors"
+                  className="text-base text-text-muted hover:text-foreground transition-colors"
                 >
                   Features
                 </a>
                 <a
                   href="#pricing"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-base text-slate-400 hover:text-white transition-colors"
+                  className="text-base text-text-muted hover:text-foreground transition-colors"
                 >
                   Pricing
                 </a>
-                <div className="pt-2 border-t border-white/[0.05] flex flex-col space-y-3">
+                <div className="pt-2 border-t border-border-color flex flex-col space-y-3">
+                  <div className="flex items-center justify-between py-1 px-1">
+                    <span className="text-sm font-semibold text-text-muted">Theme</span>
+                    <ThemeToggle />
+                  </div>
                   {session ? (
                     <>
                       <Link
                         href="/dashboard"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-base text-slate-400 hover:text-white"
+                        className="text-base text-text-muted hover:text-foreground"
                       >
                         Dashboard
                       </Link>
@@ -228,7 +238,7 @@ export default function LandingPage() {
                           signOut();
                           setMobileMenuOpen(false);
                         }}
-                        className="w-full px-4 py-2.5 rounded-xl text-center text-sm font-medium bg-white/[0.05] text-white"
+                        className="w-full px-4 py-2.5 rounded-xl text-center text-sm font-medium bg-secondary text-foreground border border-border-color hover:bg-secondary/80"
                       >
                         Log out
                       </button>
@@ -238,14 +248,14 @@ export default function LandingPage() {
                       <Link
                         href="/login"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-base text-slate-400 hover:text-white"
+                        className="text-base text-text-muted hover:text-foreground"
                       >
                         Log in
                       </Link>
                       <Link
                         href="/register"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="w-full px-4 py-2.5 rounded-xl text-center text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white"
+                        className="w-full px-4 py-2.5 rounded-xl text-center text-sm font-medium bg-blue-600 hover:bg-blue-500 text-always-white"
                       >
                         Start Free
                       </Link>
@@ -259,7 +269,7 @@ export default function LandingPage() {
       </header>
 
       {/* 1. HERO SECTION */}
-      <section className="relative pt-36 pb-16 md:pt-48 md:pb-24 w-full overflow-hidden border-b border-white/[0.04] isolate flex items-end justify-center min-h-[50vh] md:min-h-[75vh] lg:min-h-[85vh]">
+      <section className="relative w-full overflow-hidden border-b border-border-color isolate flex items-center justify-center min-h-[55vh] md:min-h-[80vh] lg:min-h-[88vh] dark-theme-container">
         {/* Ambient Hero Background Video */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -279,10 +289,10 @@ export default function LandingPage() {
             />
           )}
           {/* Edge fade gradient to blend video into page background at the bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#090d16] via-[#090d16]/30 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-40 hero-fade-gradient" />
         </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full transform translate-y-[8vh] md:translate-y-[12vh] lg:translate-y-[15vh]">
           <div className="text-center max-w-3xl mx-auto">
             {/* Premium CTA Buttons */}
             <motion.div
@@ -320,46 +330,7 @@ export default function LandingPage() {
         </div>
 
         {/* Animated Storytelling Timeline */}
-        <div className="max-w-4xl mx-auto relative before:absolute before:left-8 before:top-4 before:bottom-4 before:w-[1px] before:bg-white/[0.08] pl-20 space-y-12">
-          {/* Card 1 */}
-          <div className="relative group">
-            {/* Timeline Dot */}
-            <div className="absolute -left-[64px] top-1.5 w-6 h-6 rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center text-[10px] font-bold text-red-500 shadow-lg shadow-red-500/10">1</div>
-            <div className="p-6 rounded-xl glass-panel border-white/[0.06] group-hover:border-red-500/20 transition-colors">
-              <span className="text-xs font-semibold text-red-400">Application Submitted</span>
-              <h3 className="text-xl font-bold text-white mt-1">Generic Cover Letter Sent</h3>
-              <p className="text-slate-400 text-sm mt-2">
-                You submit a generic copy-pasted cover letter because rewriting it for every single application takes hours of energy.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="relative group">
-            {/* Timeline Dot */}
-            <div className="absolute -left-[64px] top-1.5 w-6 h-6 rounded-full bg-yellow-500/20 border-2 border-yellow-500 flex items-center justify-center text-[10px] font-bold text-yellow-500 shadow-lg shadow-yellow-500/10">2</div>
-            <div className="p-6 rounded-xl glass-panel border-white/[0.06] group-hover:border-yellow-500/20 transition-colors">
-              <span className="text-xs font-semibold text-yellow-400">ATS Screening</span>
-              <h3 className="text-xl font-bold text-white mt-1">Flagged as Generic AI or Unrelated</h3>
-              <p className="text-slate-400 text-sm mt-2">
-                Applicant Tracking System scans the text. The document lacks critical keywords or contains typical ChatGPT patterns, ranking you in the bottom tier.
-              </p>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="relative group">
-            {/* Timeline Dot */}
-            <div className="absolute -left-[64px] top-1.5 w-6 h-6 rounded-full bg-red-600/30 border-2 border-red-600 flex items-center justify-center text-[10px] font-bold text-red-500 shadow-lg shadow-red-600/10">3</div>
-            <div className="p-6 rounded-xl glass-panel border-white/[0.06] group-hover:border-red-600/30 transition-colors">
-              <span className="text-xs font-semibold text-red-500 font-bold uppercase tracking-wider">No Reply & Ghosted</span>
-              <h3 className="text-xl font-bold text-white mt-1">Application Rejected</h3>
-              <p className="text-slate-400 text-sm mt-2">
-                Your application is filed away. Weeks pass, leaving you wondering why you never heard back despite having the exact technical qualifications.
-              </p>
-            </div>
-          </div>
-        </div>
+        <HolographicTimeline />
       </section>
 
       {/* 3. SOLUTION SECTION */}
@@ -473,8 +444,8 @@ export default function LandingPage() {
               </div>
 
               {/* Document Paper Mock */}
-              <div className="rounded-lg bg-[#070a11] border border-white/[0.04] p-6 min-h-[360px] max-h-[460px] overflow-y-auto font-mono text-xs leading-relaxed text-slate-350 select-none">
-                <pre className="whitespace-pre-wrap font-sans text-xs md:text-sm text-slate-300">{typedText}</pre>
+              <div className="rounded-lg document-preview-paper p-6 min-h-[360px] max-h-[460px] overflow-y-auto font-mono text-xs leading-relaxed select-none">
+                <pre className="whitespace-pre-wrap font-sans text-xs md:text-sm document-preview-text">{typedText}</pre>
                 <div className="w-1.5 h-4 bg-blue-500 inline-block animate-pulse ml-0.5" />
               </div>
             </div>

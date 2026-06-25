@@ -23,6 +23,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme') || 'dark';
+                  document.documentElement.setAttribute('data-theme', theme);
+                  var gradient = localStorage.getItem('gradient') || 'space';
+                  document.documentElement.setAttribute('data-gradient', gradient);
+                } catch (e) {}
+              })();
+            `
+          }}
+        />
+      </head>
       <body className="antialiased min-h-screen">
         <Providers>
           {children}
