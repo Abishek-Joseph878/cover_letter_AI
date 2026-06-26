@@ -89,14 +89,14 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        toast.error("Invalid email or password. Please try again.");
+        toast.error(res.error || "Invalid credentials");
       } else {
         toast.success("Successfully logged in!");
         router.push(from);
         router.refresh();
       }
     } catch (err: any) {
-      toast.error("An unexpected error occurred. Please try again.");
+      toast.error(err.message || "An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
@@ -146,9 +146,8 @@ function LoginForm() {
                   type="email"
                   placeholder="name@company.com"
                   {...register("email")}
-                  className={`w-full pl-10 pr-4 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
-                    errors.email ? "border-red-500/50" : "border-border-color"
-                  }`}
+                  className={`w-full pl-10 pr-4 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${errors.email ? "border-red-500/50" : "border-border-color"
+                    }`}
                   disabled={isLoading}
                 />
               </div>
@@ -177,9 +176,8 @@ function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   {...register("password")}
-                  className={`w-full pl-10 pr-10 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
-                    errors.password ? "border-red-500/50" : "border-border-color"
-                  }`}
+                  className={`w-full pl-10 pr-10 py-3 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${errors.password ? "border-red-500/50" : "border-border-color"
+                    }`}
                   disabled={isLoading}
                 />
                 <button
