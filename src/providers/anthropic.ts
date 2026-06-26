@@ -8,9 +8,19 @@ export class AnthropicProvider implements AIProvider {
   }
 
   async generate(params: GenerateParams): Promise<string> {
-    const { position, company, tone, jobDescription, resumeText } = params;
+    const { position, company, tone, jobDescription, resumeText, senderName, senderEmail, senderPhone, senderAddress } = params;
 
     try {
+      const senderInfoPrompt = senderName 
+        ? `At the very beginning of the cover letter, you MUST output the sender's contact header exactly as follows (and nothing else before it):
+${senderName}
+${senderAddress || ""}
+${senderPhone ? `Phone: ${senderPhone}` : ""}
+${senderEmail ? `Email: ${senderEmail}` : ""}
+
+Followed by a blank line, then the Date, then a blank line, then the hiring manager greeting.`
+        : "";
+
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -26,7 +36,10 @@ export class AnthropicProvider implements AIProvider {
               role: "user",
               content: `You are an expert career advisor and professional writer. Generate a highly tailored, ATS-optimized, professional cover letter. The tone must be ${tone}.
               
+              ${senderInfoPrompt}
+              
               Please generate a cover letter for a ${position} position at ${company}.
+              ${senderName ? `The sender's details are: Name: ${senderName}, Address: ${senderAddress}, Phone: ${senderPhone}, Email: ${senderEmail}.` : ""}
               ${jobDescription ? `\nJob Description:\n${jobDescription}` : ""}
               ${resumeText ? `\nMy Resume / Achievements:\n${resumeText}` : ""}
               

@@ -2,7 +2,7 @@ import { AIProvider, GenerateParams } from "./types";
 
 export class MockProvider implements AIProvider {
   async generate(params: GenerateParams): Promise<string> {
-    const { position, company, tone, jobDescription, resumeText } = params;
+    const { position, company, tone, jobDescription, resumeText, senderName, senderEmail, senderPhone, senderAddress } = params;
 
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -35,7 +35,7 @@ export class MockProvider implements AIProvider {
         break;
       case "Confident":
         intro = `I am writing to express my strong interest in the ${position} role at ${company}. With a track record of executing key projects and driving team efficiency, I am prepared to step in and immediately elevate your department's outputs.`;
-        body1 = `I specialize in engineering high-impact solutions, improving operations, and translating business goals into scalable systems. My experience has equipped me to handle the technical complexities and cross-functional leadership required for this role.`;
+        body1 = `I specialize in engineering high-impact solutions, operations optimization, and translating business goals into scalable systems. My experience has equipped me to handle the technical complexities and cross-functional leadership required for this role.`;
         body2 = `I don't just complete projects; I focus on optimization and long-term stability. I am confident that my analytical capabilities and strategic approach will help ${company} achieve its next level of growth.`;
         conclusion = `I look forward to discussing how my experience can support your team's objectives in an interview. Thank you for your consideration.`;
         break;
@@ -54,6 +54,11 @@ export class MockProvider implements AIProvider {
       body1 += ` As outlined in my resume, I have a history of implementing successful solutions, which I plan to replicate for your team.`;
     }
 
-    return `Candidate Name\nCandidate Profile\n\n${date}\n\n${greeting}\n\n${intro}\n\n${body1}\n\n${body2}\n\n${conclusion}\n\nSincerely,\nCandidate Name`;
+    const header = senderName
+      ? `${senderName}\n${senderAddress || ""}\n${senderPhone ? `Phone: ${senderPhone}` : ""}\n${senderEmail ? `Email: ${senderEmail}` : ""}\n\n`
+      : "Candidate Name\nCandidate Profile\n\n";
+    const signature = senderName ? senderName : "Candidate Name";
+
+    return `${header}${date}\n\n${greeting}\n\n${intro}\n\n${body1}\n\n${body2}\n\n${conclusion}\n\nSincerely,\n${signature}`;
   }
 }

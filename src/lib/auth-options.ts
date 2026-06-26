@@ -4,6 +4,15 @@ import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
+// Fallback environment variables for Vercel deployments
+if (!process.env.NEXTAUTH_URL && process.env.VERCEL_URL) {
+  process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+}
+
+if (!process.env.NEXTAUTH_SECRET) {
+  process.env.NEXTAUTH_SECRET = "cover_letter_ai_default_nextauth_secret_key_123456789";
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -37,6 +46,8 @@ export const authOptions: NextAuthOptions = {
             id: user._id.toString(),
             name: user.name,
             email: user.email,
+            address: user.address,
+            phone: user.phone,
           };
         } catch (error) {
           console.error("Auth error:", error);
@@ -49,12 +60,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.address = (user as any).address;
+        token.phone = (user as any).phone;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id;
+        (session.user as any).address = token.address;
+        (session.user as any).phone = token.phone;
       }
       return session;
     },

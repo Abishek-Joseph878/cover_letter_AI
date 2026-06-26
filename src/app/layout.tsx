@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CoverLetter AI | Land Interviews, Not Rejections",
+  title: "Covalet | Land Interviews, Not Rejections",
   description:
     "Generate tailored, professional cover letters that sound human, not AI-generated. ATS-optimized, high-conversion cover letters in seconds.",
   keywords: ["AI", "Cover Letter", "Resume Builder", "Job Application", "ATS Optimization"],

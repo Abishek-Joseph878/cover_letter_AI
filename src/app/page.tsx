@@ -89,7 +89,7 @@ export default function LandingPage() {
   // Testimonials Carousel
   const testimonials = [
     {
-      quote: "Using CoverLetter AI felt like magic. I generated a specific letter for a React Architect role, and within 48 hours, I had a screening call. It matches my achievements so intelligently.",
+      quote: "Using Covalet felt like magic. I generated a specific letter for a React Architect role, and within 48 hours, I had a screening call. It matches my achievements so intelligently.",
       author: "Sarah Jenkins",
       role: "Lead Frontend Engineer at Tesla",
       rating: 5
@@ -127,10 +127,10 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 border-b border-border-color header-bg backdrop-blur-md transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-always-white" />
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform shrink-0 flex items-center justify-center">
+              <img src="/logo.png" alt="Covalet Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="font-semibold text-lg tracking-tight text-foreground">CoverLetter<span className="text-blue-500">AI</span></span>
+            <span className="font-semibold text-lg tracking-tight text-foreground">Covalet</span>
           </Link>
           {/* Desktop Right Side Nav & Actions */}
           <div className="hidden md:flex items-center space-x-8">
@@ -675,14 +675,14 @@ export default function LandingPage() {
       <footer className="border-t border-white/[0.06] py-12 max-w-7xl mx-auto px-6 text-center">
         <div className="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
           <div className="flex items-center space-x-2">
-            <div className="w-7.5 h-7.5 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg">
-              <Sparkles className="w-4.5 h-4.5 text-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+              <img src="/logo.png" alt="Covalet Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="text-sm font-semibold tracking-tight text-white">CoverLetter AI</span>
+            <span className="text-sm font-semibold tracking-tight text-white">Covalet</span>
           </div>
 
           <p className="text-xs text-slate-500">
-            © {new Date().getFullYear()} CoverLetter AI. Built for elite careers. All rights reserved.
+            © {new Date().getFullYear()} Covalet. Built for elite careers. All rights reserved.
           </p>
 
           <div className="flex space-x-6 text-xs text-slate-500">

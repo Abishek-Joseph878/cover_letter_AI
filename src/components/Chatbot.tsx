@@ -14,12 +14,58 @@ export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I am your AI career coach. Ask me anything about writing cover letters, optimizing your resume, or preparing for job interviews! How can I help you today?",
+      content: "Hi there! I'm your CovaLet AI coach. Ask me anything about writing cover letters, beating ATS, or changing letter styles! How can I help you today?",
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const quickReplies = [
+    "How do I beat ATS?",
+    "How to make a letter romantic?",
+    "Write a serious CV application",
+    "How does CovaLet work?"
+  ];
+
+  const handleQuickReply = async (replyText: string) => {
+    if (isLoading) return;
+    
+    // Add user message to stack
+    const updatedMessages = [...messages, { role: "user", content: replyText } as Message];
+    setMessages(updatedMessages);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: updatedMessages.map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Chat assistant failed to respond");
+      }
+
+      const data = await response.json();
+      if (data.success && data.reply) {
+        setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
+      } else {
+        throw new Error(data.error || "Invalid response format");
+      }
+    } catch (error: any) {
+      setMessages(prev => [
+        ...prev,
+        { role: "assistant", content: `Sorry, I encountered an error: ${error.message}. Please verify your API keys and try again.` },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -120,13 +166,13 @@ export function Chatbot() {
             {/* Header bar */}
             <div className="p-4 border-b border-border-color bg-blue-600/10 flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="relative w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-md">
-                  <Sparkles className="w-5 h-5 text-always-white" />
+                <div className="relative w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center shadow-md shadow-blue-500/20 shrink-0">
+                  <img src="/logo.png" alt="Covalet Coach" className="w-full h-full object-cover" />
                   {/* Status Indicator (online) */}
                   <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-background" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-foreground tracking-tight">Career Assistant</h4>
+                  <h4 className="text-sm font-bold text-foreground tracking-tight">CovaLet Coach</h4>
                   <span className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider">Powered by Groq AI</span>
                 </div>
               </div>
@@ -147,8 +193,8 @@ export function Chatbot() {
                 >
                   <div className="flex items-start gap-2.5 max-w-[85%]">
                     {msg.role === "assistant" && (
-                      <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                         <Sparkles className="w-4 h-4 text-blue-400" />
+                      <div className="w-7 h-7 rounded-lg overflow-hidden border border-blue-500/20 flex items-center justify-center shrink-0">
+                        <img src="/logo.png" alt="Covalet Coach" className="w-full h-full object-cover" />
                       </div>
                     )}
                     <div
@@ -173,14 +219,33 @@ export function Chatbot() {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start gap-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                      <Sparkles className="w-4 h-4 text-blue-400" />
+                    <div className="w-7 h-7 rounded-lg overflow-hidden border border-blue-500/20 flex items-center justify-center shrink-0">
+                      <img src="/logo.png" alt="Covalet Coach" className="w-full h-full object-cover" />
                     </div>
                     <div className="px-4 py-3 bg-secondary/60 border border-border-color rounded-2xl rounded-tl-none flex items-center space-x-1.5 h-9">
                       <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
                       <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
                       <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" />
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Replies list */}
+              {messages.length === 1 && !isLoading && (
+                <div className="pt-2 pl-9.5 space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <p className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Suggested Questions:</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {quickReplies.map((reply, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleQuickReply(reply)}
+                        className="text-[10px] bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/15 py-1 px-2.5 rounded-full transition-all text-left cursor-pointer"
+                      >
+                        {reply}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}

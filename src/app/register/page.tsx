@@ -15,6 +15,8 @@ const registerSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Please enter a valid email address"),
+    address: z.string().min(5, "Address must be at least 5 characters"),
+    phone: z.string().min(6, "Phone number is required"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
   })
@@ -39,6 +41,8 @@ export default function RegisterPage() {
     defaultValues: {
       name: "",
       email: "",
+      address: "",
+      phone: "",
       password: "",
       confirmPassword: "",
     },
@@ -55,6 +59,8 @@ export default function RegisterPage() {
         body: JSON.stringify({
           name: values.name,
           email: values.email,
+          address: values.address,
+          phone: values.phone,
           password: values.password,
         }),
       });
@@ -90,16 +96,16 @@ export default function RegisterPage() {
         <div className="max-w-md w-full mx-auto">
           {/* Logo */}
           <div className="flex items-center space-x-2.5 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Sparkles className="w-4.5 h-4.5 text-always-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+              <img src="/logo.png" alt="Covalet Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="font-semibold text-base tracking-tight text-foreground">CoverLetterAI</span>
+            <span className="font-semibold text-base tracking-tight text-foreground">Covalet</span>
           </div>
 
           <div className="mb-6">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Create an account</h1>
             <p className="text-xs text-text-muted mt-2">
-              Join CoverLetter AI and get access to the professional resume analyzer.
+              Join Covalet and get access to the professional resume analyzer.
             </p>
           </div>
 
@@ -153,6 +159,52 @@ export default function RegisterPage() {
               {errors.email && (
                 <p className="text-xs text-red-400 mt-1 flex items-center space-x-1">
                   <span>{errors.email.message}</span>
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="address" className="block text-xs font-semibold text-text-muted mb-2 uppercase tracking-wider">
+                Street Address
+              </label>
+              <div className="relative">
+                <input
+                  id="address"
+                  type="text"
+                  placeholder="123 Main St, City, Country"
+                  {...register("address")}
+                  className={`w-full px-4 py-2.5 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
+                    errors.address ? "border-red-500/50" : "border-border-color"
+                  }`}
+                  disabled={isLoading}
+                />
+              </div>
+              {errors.address && (
+                <p className="text-xs text-red-400 mt-1">
+                  <span>{errors.address.message}</span>
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-xs font-semibold text-text-muted mb-2 uppercase tracking-wider">
+                Phone Number
+              </label>
+              <div className="relative">
+                <input
+                  id="phone"
+                  type="text"
+                  placeholder="+1 (555) 000-0000"
+                  {...register("phone")}
+                  className={`w-full px-4 py-2.5 bg-secondary/30 border rounded-xl text-sm text-foreground placeholder-slate-550 focus:outline-none focus:border-blue-500 transition-colors ${
+                    errors.phone ? "border-red-500/50" : "border-border-color"
+                  }`}
+                  disabled={isLoading}
+                />
+              </div>
+              {errors.phone && (
+                <p className="text-xs text-red-400 mt-1">
+                  <span>{errors.phone.message}</span>
                 </p>
               )}
             </div>

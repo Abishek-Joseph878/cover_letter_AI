@@ -6,11 +6,11 @@ import User from "@/models/User";
 export async function POST(request: Request) {
   try {
     await connectDB();
-    const { name, email, password } = await request.json();
+    const { name, email, password, address, phone } = await request.json();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !address || !phone) {
       return NextResponse.json(
-        { success: false, error: "Please fill in all fields" },
+        { success: false, error: "Please fill in all fields (Name, Email, Password, Address, and Phone)" },
         { status: 400 }
       );
     }
@@ -41,13 +41,15 @@ export async function POST(request: Request) {
       name,
       email: emailNormalized,
       password: hashedPassword,
+      address,
+      phone,
     });
 
     return NextResponse.json(
       {
         success: true,
         message: "User registered successfully",
-        user: { id: user._id, name: user.name, email: user.email },
+        user: { id: user._id, name: user.name, email: user.email, address: user.address, phone: user.phone },
       },
       { status: 201 }
     );

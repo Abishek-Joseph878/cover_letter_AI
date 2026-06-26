@@ -4,6 +4,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
+  address?: string;
+  phone?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +28,14 @@ const UserSchema: Schema = new Schema(
       type: String,
       required: [true, "Password is required"],
       select: false, // Don't return password by default in queries
+    },
+    address: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      default: "",
     },
   },
   {

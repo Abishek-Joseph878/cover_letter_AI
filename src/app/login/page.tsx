@@ -118,10 +118,10 @@ function LoginForm() {
         <div className="max-w-md w-full mx-auto">
           {/* Logo */}
           <div className="flex items-center space-x-2.5 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Sparkles className="w-4.5 h-4.5 text-always-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
+              <img src="/logo.png" alt="Covalet Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="font-semibold text-base tracking-tight text-foreground">CoverLetterAI</span>
+            <span className="font-semibold text-base tracking-tight text-foreground">Covalet</span>
           </div>
 
           <div className="mb-8">

@@ -37,7 +37,7 @@ interface DashboardState {
 }
 
 export const useStore = create<DashboardState>((set) => ({
-  activeTab: "dashboard",
+  activeTab: "workspace",
   selectedLetter: null,
   coverLetters: [],
   isCreateModalOpen: false,
