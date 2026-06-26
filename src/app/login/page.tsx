@@ -52,6 +52,21 @@ function LoginForm() {
     }
   }, [session, router, from]);
 
+  // Handle NextAuth error redirects
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error) {
+      const errorMessages: Record<string, string> = {
+        Configuration: "There was a problem with the server. Please try again.",
+        AccessDenied: "Access denied. You do not have permission.",
+        Verification: "The verification link has expired or has already been used.",
+        CredentialsSignin: "Invalid email or password. Please try again.",
+        Default: "An error occurred. Please try again.",
+      };
+      toast.error(errorMessages[error] || errorMessages.Default);
+    }
+  }, [searchParams]);
+
   const {
     register,
     handleSubmit,
@@ -74,14 +89,14 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        toast.error(res.error || "Invalid credentials");
+        toast.error("Invalid email or password. Please try again.");
       } else {
         toast.success("Successfully logged in!");
         router.push(from);
         router.refresh();
       }
     } catch (err: any) {
-      toast.error(err.message || "An unexpected error occurred");
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }

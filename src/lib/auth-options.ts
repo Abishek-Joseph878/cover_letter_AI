@@ -14,29 +14,34 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Please enter your email and password");
+          return null;
         }
 
-        await connectDB();
+        try {
+          await connectDB();
 
-        // Explicitly select password since it has select: false
-        const user = await User.findOne({ email: credentials.email.toLowerCase() }).select("+password");
+          // Explicitly select password since it has select: false
+          const user = await User.findOne({ email: credentials.email.toLowerCase() }).select("+password");
 
-        if (!user || !user.password) {
-          throw new Error("No user found with this email");
+          if (!user || !user.password) {
+            return null;
+          }
+
+          const isMatch = await bcrypt.compare(credentials.password, user.password);
+
+          if (!isMatch) {
+            return null;
+          }
+
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
         }
-
-        const isMatch = await bcrypt.compare(credentials.password, user.password);
-
-        if (!isMatch) {
-          throw new Error("Incorrect password");
-        }
-
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-        };
       },
     }),
   ],
@@ -59,6 +64,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
