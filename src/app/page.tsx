@@ -26,6 +26,7 @@ import {
   MousePointerClick
 } from "lucide-react";
 import HolographicTimeline from "../components/HolographicTimeline";
+import HolographicTailoringSystem from "../components/HolographicTailoringSystem";
 import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function LandingPage() {
@@ -334,70 +335,7 @@ export default function LandingPage() {
       </section>
 
       {/* 3. SOLUTION SECTION */}
-      <section className="py-24 border-t border-white/[0.04] max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-xs font-semibold text-blue-500 uppercase tracking-widest mb-3">Our Tailoring System</h2>
-          <p className="text-3xl md:text-5xl font-bold text-white tracking-tight">Write Better Letters. 10x Faster.</p>
-          <p className="text-slate-400 mt-4 leading-relaxed">
-            Our multi-step generator aligns your resume accomplishments directly with job description requirements in seconds.
-          </p>
-        </div>
-
-        {/* Solution Grid Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="p-6 rounded-xl glass-panel glass-panel-hover flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-5 text-blue-500">
-                <Upload className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">1. Input Credentials</h3>
-              <p className="text-slate-400 text-sm mt-2.5">
-                Paste your resume or details once. Our analyzer maps your strongest career highlights.
-              </p>
-            </div>
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-widest mt-6">Step One</span>
-          </div>
-
-          <div className="p-6 rounded-xl glass-panel glass-panel-hover flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-5 text-indigo-400">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">2. Paste Target Post</h3>
-              <p className="text-slate-400 text-sm mt-2.5">
-                Insert the target job description. The parser identifies mandatory skills and ATS keywords.
-              </p>
-            </div>
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-widest mt-6">Step Two</span>
-          </div>
-
-          <div className="p-6 rounded-xl glass-panel glass-panel-hover flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 text-purple-450">
-                <Brain className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">3. Generate in Seconds</h3>
-              <p className="text-slate-400 text-sm mt-2.5">
-                Our model crafts tailored cover letter paragraphs matching your skills with the company culture.
-              </p>
-            </div>
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-widest mt-6">Step Three</span>
-          </div>
-
-          <div className="p-6 rounded-xl glass-panel glass-panel-hover flex flex-col justify-between">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center mb-5 text-green-500">
-                <Download className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-white">4. Export & Apply</h3>
-              <p className="text-slate-400 text-sm mt-2.5">
-                Check tone guidelines, copy to clipboard, or save as Draft. Apply with total confidence.
-              </p>
-            </div>
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-widest mt-6">Step Four</span>
-          </div>
-        </div>
-      </section>
+      <HolographicTailoringSystem />
 
       {/* 4. INTERACTIVE SHOWCASE SECTION */}
       <section id="showcase" className="py-24 border-t border-white/[0.04] bg-slate-950/40 max-w-7xl mx-auto px-6 relative">
